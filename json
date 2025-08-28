@@ -1,0 +1,15 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "properties": { "Name": "Community Center", "Type": "Resource" },
+      "geometry": { "type": "Point", "coordinates": [-95.36327, 29.76328] }
+    },
+    {
+      "type": "Feature",
+      "properties": { "Name": "Local Park", "Type": "Recreation" },
+      "geometry": { "type": "Point", "coordinates": [-95.38327, 29.75328] }
+    }
+  ]
+}
