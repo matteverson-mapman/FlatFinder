@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>Community Map</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- Leaflet CSS & JS -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+  <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+
+  <style>
+    body, html { margin:0; padding:0; height:100%; font-family: Arial, sans-serif; }
+    #map { width: calc(100% - 250px); height:100%; float:right; }
+    #sidebar {
+      width: 250px;
+      height: 100%;
+      float: left;
+      background: #f7f7f7;
+      border-right: 1px solid #ccc;
+      padding: 15px;
+      box-sizing: border-box;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+    h2 { font-size: 1.2em; margin-top:0; }
+    .sponsor, .donate { margin-top: 20px; }
+    .sponsor img { max-width: 100%; margin-bottom: 10px; }
+    .donate button {
+      background: #ffcc00;
+      border: none;
+      padding: 10px;
+      cursor: pointer;
+      width: 100%;
+      font-weight: bold;
+      border-radius: 5px;
+    }
+    .donate button:hover {
+      background: #ffdd33;
+    }
+  </style>
+</head>
+<body>
+  <!-- Sidebar -->
+  <div id="sidebar">
+    <div>
+      <h2>Community Map</h2>
+      <p>Explore local resources and services.</p>
+    </div>
+
+    <div class="sponsor">
+      <h3>Sponsored by</h3>
+      <a href="https://example.com" target="_blank">
+        <img src="https://via.placeholder.com/200x80?text=Sponsor+Logo" alt="Sponsor Logo">
+      </a>
+      <p><small>Want your logo here? <a href="#">Contact us</a></small></p>
+    </div>
+
+    <div class="donate">
+      <h3>Support this project</h3>
+      <p>Help us keep this map free and updated.</p>
+      <a href="https://www.buymeacoffee.com/" target="_blank">
+        <button>☕ Buy Me a Coffee</button>
+      </a>
+    </div>
+  </div>
+
+  <!-- Map -->
+  <div id="map"></div>
+
+  <script>
+    // Initialize map
+    var map = L.map('map').setView([40, -95], 4); // Adjust center/zoom
+
+    // Add OpenStreetMap basemap
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      attribution: '&copy; OpenStreetMap contributors'
+    }).addTo(map);
+
+    // Example GeoJSON loader
+    fetch('mydata.geojson')
+      .then(res => res.json())
+      .then(data => {
+        L.geoJSON(data, {
+          onEachFeature: function (feature, layer) {
+            if (feature.properties) {
+              let popupContent = Object.entries(feature.properties)
+                .map(([k,v]) => `<b>${k}</b>: ${v}`)
+                .join('<br>');
+              layer.bindPopup(popupContent);
+            }
+          }
+        }).addTo(map);
+      });
+  </script>
+</body>
+</html>
